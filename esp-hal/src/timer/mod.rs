@@ -5,7 +5,7 @@
 //! The [OneShotTimer] and [PeriodicTimer] types can be backed by any hardware
 //! peripheral which implements the [Timer] trait. This means that the same API
 //! can be used to interact with different hardware timers, like the `TIMG` and
-//! SYSTIMER.
+//! `SYSTIMER`.
 #![cfg_attr(
     systimer_driver_supported,
     doc = "See the [timg] and [systimer] modules for more information."
@@ -16,11 +16,11 @@
 )]
 //! ## Examples
 //!
-//! ### One-shot Timer
+//! ### One-shot Timer, blocking
 //!
 //! ```rust, no_run
 //! # {before_snippet}
-//! # use esp_hal::timer::{OneShotTimer, PeriodicTimer, timg::TimerGroup};
+//! # use esp_hal::timer::{OneShotTimer, timg::TimerGroup};
 //! #
 //! let timg0 = TimerGroup::new(peripherals.TIMG0);
 //! let mut one_shot = OneShotTimer::new(timg0.timer0);
@@ -29,7 +29,21 @@
 //! # {after_snippet}
 //! ```
 //!
-//! ### Periodic Timer
+//! ### One-shot Timer, async
+//!
+//! ```rust, no_run
+//! # {before_snippet}
+//! # use esp_hal::timer::{OneShotTimer, timg::TimerGroup};
+//! #
+//! let timg0 = TimerGroup::new(peripherals.TIMG0);
+//! let mut one_shot = OneShotTimer::new(timg0.timer0).into_async();
+//!
+//! one_shot.delay_millis_async(500).await;
+//! # {after_snippet}
+//! ```
+//!
+//! ### Periodic Timer, blocking
+//!
 //! ```rust, no_run
 //! # {before_snippet}
 //! # use esp_hal::timer::{PeriodicTimer, timg::TimerGroup};
